@@ -1,69 +1,72 @@
-
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width,initial-scale=1" />
-	<title>AP Physics Demos — Mechanics</title>
-	<link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-	<header>
-		<h1>AP Physics Demos — Mechanics</h1>
-		<nav>
-			<ul>
-				<li><a href="#" id="nav-projectile">Projectile Motion</a></li>
-				<li><a href="#" id="nav-shm">Simple Harmonic Motion</a></li>
-				<li><a href="#" id="nav-circuit">Electric Circuit</a></li>
-			</ul>
-		</nav>
-	</header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projectile Motion — Simulation</title>
 
-	<main>
-		<section id="demo-area">
-			<div id="controls">
-				<!-- Projectile controls -->
-				<div id="proj-controls">
-					<label>Angle: <input type="range" id="angle" min="0" max="90" value="45"> <span id="angle-val">45°</span></label>
-					<label>Speed: <input type="range" id="speed" min="1" max="100" value="50"> <span id="speed-val">50</span></label>
-					<label>Gravity: <input type="range" id="gravity" min="0" max="20" value="9.8" step="0.1"> <span id="gravity-val">9.8</span></label>
-					<div class="buttons">
-						<button id="launch">Launch</button>
-						<button id="reset">Reset</button>
-					</div>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-					<!-- Electric circuit controls (RC charging) -->
-					<div id="circuit-controls" style="display:none">
-						<label>Vin: <input type="range" id="circ-vin" min="0" max="20" value="10" step="0.1"> <span id="circ-vin-val">10 V</span></label>
-						<label>Resistance R: <input type="range" id="circ-r" min="1" max="1000" value="100"> <span id="circ-r-val">100 Ω</span></label>
-						<label>Capacitance C: <input type="range" id="circ-c" min="0.001" max="1" value="0.01" step="0.001"> <span id="circ-c-val">0.01 F</span></label>
-						<label>Mode: <select id="circ-mode"><option value="charge">Charge</option><option value="discharge">Discharge</option></select></label>
-						<div class="buttons">
-							<button id="circ-start">Start</button>
-							<button id="circ-stop">Stop</button>
-							<button id="circ-reset">Reset</button>
-						</div>
-					</div>
-				</div>
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
 
-				<!-- Simple Harmonic Motion controls (hidden until selected) -->
-				<div id="shm-controls" style="display:none">
-					<label>Amplitude: <input type="range" id="shm-amplitude" min="10" max="200" value="100"> <span id="shm-amplitude-val">100</span> px</label>
-					<label>Mass: <input type="range" id="shm-mass" min="0.1" max="10" value="1" step="0.1"> <span id="shm-mass-val">1</span> kg</label>
-					<label>Spring k: <input type="range" id="shm-k" min="0.1" max="50" value="10" step="0.1"> <span id="shm-k-val">10</span> N/m</label>
-					<label>Damping c: <input type="range" id="shm-c" min="0" max="10" value="0.2" step="0.01"> <span id="shm-c-val">0.2</span></label>
-					<div class="buttons">
-						<button id="shm-start">Start</button>
-						<button id="shm-stop">Stop</button>
-						<button id="shm-reset">Reset</button>
-					</div>
-				</div>
-			</div>
+  <body>
+    <main>
+      <h1>Projectile Motion Simulator</h1>
 
-			<canvas id="canvas" width="800" height="420"></canvas>
-		</section>
-	</main>
+      <section id="sim-wrap">
+        
+        <!-- Simulation Canvas -->
+        <canvas id="sim"></canvas>
 
-	<script src="js/main.js"></script>
-</body>
+        <!-- Controls  -->
+        <div id="controls">
+          <h2 class="panel-title">Controls</h2>
+
+          <label>
+            Angle: <span id="angle-val">45</span>°
+            <input id="angle" type="range" min="0" max="90" value="45">
+          </label>
+
+          <label>
+            Speed: <span id="speed-val">50</span> m/s
+            <input id="speed" type="range" min="0" max="100" value="50">
+          </label>
+
+          <div class="buttons">
+            <button id="launch">Launch</button>
+            <button id="pause">Pause</button>
+            <button id="reset">Reset</button>
+            
+          </div>
+
+          <div id="stats">
+            <div class="stat">
+              <div class="stat-label">Time</div>
+              <div class="stat-value"><span id="time">0.00</span> s</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-label">Range</div>
+              <div class="stat-value"><span id="range">0.00</span> m</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-label">Max Height</div>
+              <div class="stat-value"><span id="maxh">0.00</span> m</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-label">Velocity</div>
+              <div class="stat-value"><span id="velocity">0.00</span> m/s</div>
+          </div>
+        </div>
+
+      </section>
+
+      
+    </main>
+
+    <script src="js/main.js"></script>
+  </body>
 </html>
