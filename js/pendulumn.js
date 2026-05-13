@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const add2 = document.getElementById('add2');
   const add3 = document.getElementById('add3');
+  const add1 = document.getElementById('add1');
+  const numInput = document.getElementById('number-of-pendulums');
+
 
   // Telemetry HUD (now static HTML in pendulumn.html)
   // Expected container id: #pendulum-telemetry
@@ -309,15 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const endX = this.x[this.n - 1];
         const endY = this.y[this.n - 1];
         ctx.beginPath();
-        ctx.ellipse(
-          endX,
-          Math.min(h - 5, endY + 10),
-          18 + this.n * 4,
-          6 + this.n * 1.5,
-          0,
-          0,
-          Math.PI * 2
-        );
         ctx.fillStyle = COLORS.shadow;
         ctx.fill();
       }
@@ -513,6 +507,25 @@ document.addEventListener('DOMContentLoaded', () => {
       sim.reset();
     };
   }
+  if (add1) {
+    add1.onclick = () => {
+      sim.n = 1;
+      sim.reset();
+    };
+  }
+  if (numInput) {
+    numInput.onchange = () => {
+      const val = parseInt(numInput.value);
+      if (isNaN(val) || val < 1 || val > 3) {
+        numInput.value = sim.n;
+        return;
+      }
+      sim.n = val;
+      sim.reset();
+    };
+  }
+
+
 
   // Main loop
   let lastT = performance.now();
