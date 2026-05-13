@@ -5,49 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pendulum Simulation</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
   </head>
 
-
   <body>
-    <main>
-      <h1>Pendulum Simulator</h1>
+    <main class="app">
 
-      <section id="sim-wrap">
-        <canvas id="sim"></canvas>
 
-        <div id="controls">
-          <h2 class="panel-title">Controls</h2>
 
-          <label>
-            Angle: <span id="angle-val">30</span>°
-            <input id="angle" type="range" min="0" max="45" value="10">
-          </label>
+      <header class="topbar">
+        <h1>Pendulum Simulator</h1>
+      </header>
 
-          <label>
-            Length: <span id="length-val">2</span> m
-            <input id="length" type="range" min="1" max="5" value="2">
-          </label>
-          
-          <label>
-            Gravity: <span id="gravity-val">9.81</span> m/s²
-            <input id="gravity" type="range" min="0" max="20" value="9.81" step="0.01">
-          </label>
+      <section class="sim-grid">
 
-          <div class="buttons">
-            <button id="start">Start</button>
-            <button id="pause">Pause</button>
-            <button id="reset">Reset</button>
-          </div>
+        <!-- CANVAS PANEL -->
+        <div class="canvas-card">
+          <canvas id="sim"></canvas>
         </div>
-      </section>
 
-      <nav class="page-nav">
-         <a href="../index.html" class="nav-link"> Back to Home</a>
-      </nav>
+        <!-- CONTROLS PANEL -->
+        <aside class="control-card">
+
+          <h2>Controls</h2>
+
+          <div class="control-group">
+            <div class="label-row">
+              <span>Angle</span>
+              <span class="value" id="angle-val">10°</span>
+            </div>
+            <input id="angle" type="range" min="0" max="45" value="10">
+          </div>
+
+          <div class="control-group">
+            <div class="label-row">
+              <span>Length</span>
+              <span class="value" id="length-val">2m</span>
+            </div>
+            <input id="length" type="range" min="1" max="5" value="2">
+          </div>
+
+          <div class="control-group">
+            <div class="label-row">
+              <span>Gravity</span>
+              <span class="value" id="gravity-val">9.81</span>
+            </div>
+            <input id="gravity" type="range" min="0" max="20" value="9.81" step="0.01">
+          </div>
+
+          <div class="btn-row">
+            <button id="start" class="btn primary">Start</button>
+            <button id="pause" class="btn">Pause</button>
+            <button id="reset" class="btn danger">Reset</button>
+            <button id="add2" class="btn">Add Double (2)</button>
+            <button id="add3" class="btn">Add Triple (3)</button>
+          </div>
+
+          
+
+          <div id="pendulum-telemetry" style="margin-top:1rem; padding:0.9rem; border:1px solid rgba(233,220,198,1); border-radius:12px; background:#fff8ef;">
+            <div style="font-weight:600; margin-bottom:0.5rem; color: var(--text);">Telemetry</div>
+            <div style="display:grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap:0.5rem;">
+              <div class="stat" style="padding:0.6rem; border-radius:10px; background:#f8f5f0;">
+                <div class="stat-label">t</div>
+                <div class="stat-value"><span id="p_t">0.00</span>s</div>
+              </div>
+              <div class="stat" style="padding:0.6rem; border-radius:10px; background:#f8f5f0;">
+                <div class="stat-label">Energy*</div>
+                <div class="stat-value"><span id="p_E">0.00</span></div>
+              </div>
+              <div class="stat" style="padding:0.6rem; border-radius:10px; background:#f8f5f0;">
+                <div class="stat-label">θ1</div>
+                <div class="stat-value"><span id="p_th1">0.00</span>°</div>
+              </div>
+              <div class="stat" style="padding:0.6rem; border-radius:10px; background:#f8f5f0;">
+                <div class="stat-label">θ2</div>
+                <div class="stat-value"><span id="p_th2">0.00</span>°</div>
+              </div>
+              <div class="stat" style="padding:0.6rem; border-radius:10px; background:#f8f5f0;">
+                <div class="stat-label">θ3</div>
+                <div class="stat-value"><span id="p_th3">0.00</span>°</div>
+              </div>
+              <div class="stat" style="padding:0.6rem; border-radius:10px; background:#f8f5f0;">
+                <div class="stat-label">FPS</div>
+                <div class="stat-value"><span id="p_fps">0</span></div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </aside>
+
+
+      </section>
     </main>
 
     <script src="../js/pendulumn.js"></script>
   </body>
+          <nav class="page-nav">
+            <a href="../index.html" class="nav-link"> Back to Home</a>
+           </nav>
 </html>
