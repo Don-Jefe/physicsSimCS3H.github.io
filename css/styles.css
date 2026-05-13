@@ -1,0 +1,263 @@
+:root {
+  --bg: #fdfaf5;
+  --oak: #a67c52;
+  --light-oak: #e9dcc6;
+  --dark-oak: #7a5a3a;
+  --text: #2c241b;
+  --muted: #7a6a58;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+main {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  background: linear-gradient(45deg, var(--dark-oak), var(--oak));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+}
+
+/* Navigation */
+.page-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--light-oak);
+  border-bottom: 1px solid var(--light-oak);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.8rem;
+  background: linear-gradient(135deg, var(--oak) 0%, #b8946a 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(166, 124, 82, 0.3), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.nav-link:hover {
+  background: linear-gradient(135deg, var(--dark-oak) 0%, var(--oak) 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(122, 90, 58, 0.35),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.nav-link:hover::before {
+  left: 100%;
+}
+
+.nav-link:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(122, 90, 58, 0.25);
+}
+
+#sim-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  #sim-wrap {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+canvas#sim {
+  box-shadow: 0 8px 20px rgba(122, 90, 58, 0.15);
+  width: 100%;
+  aspect-ratio: 4/3;
+  border: 6px solid var(--oak);
+  border-radius: 15px;
+  background: #fffdf9;
+  transition: all 0.2s;
+}
+
+#sim-frame {
+  display: flex;
+  justify-content: center;
+}
+
+#controls {
+  background: #fff8ef;
+  border: 2px solid var(--light-oak);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(122, 90, 58, 0.15);
+}
+
+.panel-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin: 1.5rem 0 0.5rem 0;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+input[type=range] {
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.8rem 1.2rem;
+  border: 2px solid var(--oak);
+  border-radius: 10px;
+  background: #fff8ef;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(122, 90, 58, 0.15);
+  transition: all 0.2s;
+  flex: 1;
+}
+
+button:hover {
+  background: var(--oak);
+  color: white;
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(122, 90, 58, 0.15);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(122, 90, 58, 0.1);
+}
+
+button#launch {
+  background: var(--oak);
+  color: white;
+}
+
+#stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  background: #f8f5f0;
+  border: 1px solid var(--light-oak);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text);
+}
+
+/* Slider Track */
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: var(--light-oak);
+  border-radius: 5px;
+  border: none;
+}
+
+/* Slider Thumb - WebKit browsers */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  background: var(--oak);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px;
+  transition: background 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  background: var(--dark-oak);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Slider Thumb - Firefox */
+input[type=range]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--oak);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s;
+}
+
+input[type=range]::-moz-range-thumb:hover {
+  background: var(--dark-oak);
+  transition: background 0.2s;
+}
+
+/* Firefox Range Track */
+input[type=range]::-moz-range-track {
+  background: transparent;
+  border: none;
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projectile Motion — Simulation</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+  </head>
+
+  <body>
+    <main>
+      <h1>Projectile Motion Simulator</h1>
+      <section id="sim-wrap">
+        <!-- Simulation Canvas -->
+        <canvas id="sim"></canvas>
+
+        <!-- Controls  -->
+        <div id="controls">
+          <h2 class="panel-title">Controls</h2>
+
+          <label>
+            Angle: <span id="angle-val">45</span>°
+            <input id="angle" type="range" min="0" max="90" value="45">
+          </label>
+
+          <label>
+            Speed: <span id="speed-val">50</span> m/s
+            <input id="speed" type="range" min="0" max="100" value="50">
+          </label>
+
+          <div class="buttons">
+            <button id="launch">Launch</button>
+            <button id="pause">Pause</button>
+            <button id="reset">Reset</button>
+          </div>
+
+          <div id="stats">
+            <div class="stat">
+              <div class="stat-label">Time</div>
+              <div class="stat-value"><span id="time">0.00</span> s</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-label">Range</div>
+              <div class="stat-value"><span id="range">0.00</span> m</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-label">Max Height</div>
+              <div class="stat-value"><span id="maxh">0.00</span> m</div>
+            </div>
+
+            <div class="stat">
+              <div class="stat-label">Velocity</div>
+              <div class="stat-value"><span id="velocity">0.00</span> m/s</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <nav class="page-nav">
+        <a href="../index.html" class="nav-link"> Back to Home</a>
+      </nav>
+    </main>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pendulum Simulation</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+  </head>
+
+
+  <body>
+    <main>
+      <h1>Pendulum Simulator</h1>
+
+      <section id="sim-wrap">
+        <canvas id="sim"></canvas>
+
+        <div id="controls">
+          <h2 class="panel-title">Controls</h2>
+
+          <label>
+            Angle: <span id="angle-val">30</span>°
+            <input id="angle" type="range" min="0" max="45" value="10">
+          </label>
+
+          <label>
+            Length: <span id="length-val">2</span> m
+            <input id="length" type="range" min="1" max="5" value="2">
+          </label>
+          
+          <label>
+            Gravity: <span id="gravity-val">9.81</span> m/s²
+            <input id="gravity" type="range" min="0" max="20" value="9.81" step="0.01">
+          </label>
+
+          <div class="buttons">
+            <button id="start">Start</button>
+            <button id="pause">Pause</button>
+            <button id="reset">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <nav class="page-nav">
+         <a href="../index.html" class="nav-link"> Back to Home</a>
+      </nav>
+    </main>
+
+    <script src="../js/pendulumn.js"></script>
+  </body>
+</html>
