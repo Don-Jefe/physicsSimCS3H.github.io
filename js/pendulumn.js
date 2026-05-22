@@ -58,12 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const p_fps = document.getElementById('p_fps');
 
   const COLORS = {
-    bg1: '#fffaf3',
-    bg2: '#e4e1dc',
-    rod: '#2b2f3a',
-    rodGlow: 'rgba(43,47,58,0.35)',
+    bg1: '#fdfaf5',
+    bg2: '#fdfaf5',
+    rod: '#13110f',
+    rodGlow: 'rgba(43, 47, 58, 0.06)',
     pivot: '#6f6a5a',
-    bob1: '#c07a3c',
+    bob1: '#a67c52',
     bob2: '#7a5a3a',
     shadow: 'rgba(0,0,0,0.10)'
   };
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.lineWidth = thickness;
         ctx.strokeStyle = COLORS.rod;
         ctx.shadowColor = COLORS.rodGlow;
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 2;
 
         ctx.beginPath();
         ctx.moveTo(x0, y0);
@@ -347,14 +347,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.stroke();
         ctx.restore();
 
-        // highlight
+        
         ctx.save();
-        ctx.lineCap = 'round';
-        ctx.lineWidth = Math.max(2, thickness * 0.22);
-        ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-        ctx.beginPath();
-        ctx.moveTo(x0, y0);
-        ctx.lineTo(x1, y1);
         ctx.stroke();
         ctx.restore();
       }
@@ -366,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = this.y[i];
 
         const gradBob = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, 2, x, y, r);
-        gradBob.addColorStop(0, '#ffd6b0');
+        gradBob.addColorStop(0, '#b69b81');
         gradBob.addColorStop(0.3, COLORS.bob1);
         gradBob.addColorStop(1, COLORS.bob2);
 
@@ -386,17 +380,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.stroke();
 
         // specular
-        ctx.beginPath();
-        ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.28, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.45)';
-        ctx.fill();
+        // ctx.beginPath();
+        // ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.28, 0, Math.PI * 2);
+        // ctx.fillStyle = 'rgba(255,255,255,0.45)';
+        // ctx.fill();
       }
 
       // drag indicator
       if (dragging && grabbed >= 0) {
         ctx.beginPath();
         ctx.arc(dragTarget.x, dragTarget.y, 7, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(74,144,226,0.9)';
+        ctx.fillStyle = '#a67c52';
         ctx.fill();
         ctx.lineWidth = 2;
         ctx.strokeStyle = 'rgba(74,144,226,0.35)';

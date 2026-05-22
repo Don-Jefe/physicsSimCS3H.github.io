@@ -61,6 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
     this.pos1 = pos1;
     this.pos2 = pos2;
 
+    // Keep reference to inputs so sliders can affect forces during run.
+    this._sliders = {
+      force1: force1Slider,
+      force2: force2Slider,
+      pos1: pos1Slider,
+      pos2: pos2Slider,
+      length: rodLengthSlider
+    };
+
     this.angle = 0;
     this.angularVelocity = 0;
 
@@ -78,10 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   update(dt) {
+    // Live-update parameters from sliders while running.
+    this.length = parseFloat(this._sliders.length.value);
+    this.force1 = parseFloat(this._sliders.force1.value);
+    this.force2 = parseFloat(this._sliders.force2.value);
+    this.pos1 = parseFloat(this._sliders.pos1.value);
+    this.pos2 = parseFloat(this._sliders.pos2.value);
+    
+
+    // Recompute inertia if length changed.
+    this.inertia = (1 / 12) * this.mass * this.length * this.length;
+
     const torque = this.getTorque();
 
-    const angularAcceleration =
-      torque / this.inertia;
+    const angularAcceleration = torque / this.inertia;
 
     this.angularVelocity +=
       angularAcceleration * dt;
@@ -97,6 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let dpr = window.devicePixelRatio || 1;
     const centerX = canvas.width / (2 * dpr);
     const centerY = canvas.height / (2 * dpr);
+
+    
+
+    const pos1 = parseFloat(pos1Slider.value);
+    const pos2 = parseFloat(pos2Slider.value);
 
     // RESET TRANSFORM
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -145,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const x1 = this.pos1 * scale;
 
     ctx.beginPath();
-    ctx.arc(x1, 0, 12, 0, Math.PI * 2);
+    ctx.arc(x1, 0, 0, 0, Math.PI * 2);
     ctx.fillStyle = '#4a90e2';
     ctx.fill();
 
@@ -163,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const x2 = this.pos2 * scale;
 
     ctx.beginPath();
-    ctx.arc(x2, 0, 12, 0, Math.PI * 2);
+    ctx.arc(x2, 0, 0, 0, Math.PI * 2);
     ctx.fillStyle = '#e74c3c';
     ctx.fill();
 
@@ -176,24 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.restore();
 
-    // DRAW TORQUE ARROWS IN WORLD SPACE
-    this.drawTorqueArrow(
-      centerX + x1 * Math.cos(this.angle),
-      centerY + x1 * Math.sin(this.angle),
-      this.pos1 * this.force1,
-      '#4a90e2'
-    );
+    
 
-    this.drawTorqueArrow(
-      centerX + x2 * Math.cos(this.angle),
-      centerY + x2 * Math.sin(this.angle),
-      this.pos2 * this.force2,
-      '#e74c3c'
-    );
+  
   }
 
   drawForceArrow(x, y, force, color) {
-  const dir = force >= 0 ? 1 : -1;
+    const dir = force >= 0 ? 1 : -1;
 
   const length = Math.abs(force) * 7 + 20;
 
@@ -202,15 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
 
-  ctx.lineWidth = 5;
-  ctx.lineCap = 'round';
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
 
-  // glow
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 14;
-
-  // shaft
-  ctx.beginPath();
+    // shaft
+    ctx.beginPath();
 
   ctx.moveTo(x, y);
   ctx.lineTo(x, endY);
@@ -239,63 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ctx.shadowBlur = 0;
 }
 
-  drawTorqueArrow(x, y, torque, color) {
-    if (Math.abs(torque) < 0.01) return;
 
-    const clockwise = torque < 0;
-
-    const radius = 28;
-
-    const startAngle = clockwise
-      ? Math.PI * 0.15
-      : Math.PI * 1.15;
-
-    const endAngle = clockwise
-      ? Math.PI * 1.15
-      : Math.PI * 0.15;
-
-    ctx.beginPath();
-
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 3;
-
-    ctx.arc(
-      x,
-      y,
-      radius,
-      startAngle,
-      endAngle,
-      clockwise
-    );
-
-    ctx.stroke();
-
-    // arrowhead
-    const ax =
-      x + radius * Math.cos(endAngle);
-
-    const ay =
-      y + radius * Math.sin(endAngle);
-
-    ctx.beginPath();
-
-    ctx.moveTo(ax, ay);
-
-    ctx.lineTo(
-      ax - 8 * Math.cos(endAngle - 0.4),
-      ay - 8 * Math.sin(endAngle - 0.4)
-    );
-
-    ctx.lineTo(
-      ax - 8 * Math.cos(endAngle + 0.4),
-      ay - 8 * Math.sin(endAngle + 0.4)
-    );
-
-    ctx.closePath();
-
-    ctx.fillStyle = color;
-    ctx.fill();
-  }
 }
 
   // UI UPDATES
@@ -367,17 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const w = canvas.width / dpr;
   const h = canvas.height / dpr;
 
-  ctx.fillStyle = '#f5f7fa';
+  ctx.fillStyle = '#fdfaf5';
 
   ctx.fillRect(0, 0, w, h);
 
   ctx.beginPath();
 
-  ctx.moveTo(0, h / 2);
-  ctx.lineTo(w, h / 2);
-
-  ctx.strokeStyle = '#ddd';
-  ctx.lineWidth = 2;
+ 
 
   ctx.stroke();
 }
@@ -410,19 +359,64 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillStyle = '#666';
     ctx.fill();
 
-    // force points
-    ctx.beginPath();
-    ctx.arc(pos1 * scale, 0, 10, 0, Math.PI * 2);
-    ctx.fillStyle = '#4a90e2';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(pos2 * scale, 0, 10, 0, Math.PI * 2);
-    ctx.fillStyle = '#e74c3c';
-    ctx.fill();
+    
 
     ctx.restore();
   }
+
+  function drawForcesFromSliders() {
+    // Draw arrows in preview mode (before Start) using current slider values
+    const centerX = canvas.width / (2 * dpr);
+    const centerY = canvas.height / (2 * dpr);
+
+    const force1 = parseFloat(force1Slider.value);
+    const force2 = parseFloat(force2Slider.value);
+
+    const pos1 = parseFloat(pos1Slider.value);
+    const pos2 = parseFloat(pos2Slider.value);
+
+    // In preview, the rod angle is 0, so we can treat world space = local space.
+    const x1 = pos1 * scale;
+    const x2 = pos2 * scale;
+
+    drawForceArrow(centerX + x1, centerY, force1, '#4a90e2');
+    drawForceArrow(centerX + x2, centerY, force2, '#e74c3c');
+
+    
+  }
+
+  // Standalone arrow helpers for preview mode.
+  function drawForceArrow(x, y, force, color) {
+    const dir = force >= 0 ? 1 : -1;
+    const length = Math.abs(force) * 7 + 20;
+    const endY = y + dir * length;
+
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
+
+    // shaft
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, endY);
+    ctx.stroke();
+
+    // arrowhead
+    ctx.beginPath();
+    ctx.moveTo(x, endY);
+    ctx.lineTo(x - 10, endY - dir * 16);
+    ctx.lineTo(x + 10, endY - dir * 16);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  
+
+
+
+
 
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -436,13 +430,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.save();
 
-    ctx.shadowColor = 'rgba(0,0,0,0.167)';
-    ctx.shadowBlur = 5;
+    // No glow in preview/initial render to avoid arc-looking halos
+    ctx.shadowColor = 'rgba(0,0,0,0)';
+    ctx.shadowBlur = 0;
 
     if (rod) {
       rod.draw();
     } else {
+      // Before Start: show forces/torque arrows using current slider values
       drawPreview();
+      drawForcesFromSliders();
+
+      // Also show torque value contributions (net torque will be 0 in UI unless simulation runs)
+      // Keep it visual-only; stats update on Start.
     }
     
     ctx.restore();
